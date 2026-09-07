@@ -14,4 +14,4 @@ CREATE TABLE bookings (
     client_id INTEGER,
     -- the foreign key links each booking to its corresponding client in the clients table and it lives in bookings because it is the child table in this relationship. The clients table is the parent table.
     FOREIGN KEY (client_id) REFERENCES clients(client_id) 
-)
+);
