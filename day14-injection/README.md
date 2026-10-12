@@ -52,5 +52,8 @@ Escaping tries to clean dangerous characters out of the data *after* it's alread
 Parameterising removes data from the grammar-building step entirely. The grammar is finalised before any user input exists, so there's no point in the process where data could ever become command. That's a structural fix, not a cleanup step.
 
 ## How to run
+1. `pip install pytest`
+2. `python demo_attack.py` — runs the live exploit against both versions
+3. `pytest -v` — runs the automated proof
 
 I built a working SQL injection demo against my own vulnerable login function, then fixed it with parameterised queries. I can trace exactly why the glued-string version breaks — the attacker's quote mark closes the password string early and the rest becomes part of the WHERE clause — and why binding values with `?` placeholders prevents it structurally, not just by cleaning input. All my real projects use parameterised queries for this reason.
