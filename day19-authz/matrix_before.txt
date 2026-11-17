@@ -1,0 +1,147 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.14.3, pytest-9.1.1, pluggy-1.6.0 -- C:\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\lethabo\Desktop\lita-python-foundations\day19-authz
+plugins: platformdirs-4.13.0
+collecting ... collected 13 items
+
+test_authz.py::test_access_matrix[row01-patient_reads_own_record] PASSED [  7%]
+test_authz.py::test_access_matrix[row02-cross-user_read_is_invisible] FAILED [ 15%]
+test_authz.py::test_access_matrix[row03-anonymous_cannot_read_records] PASSED [ 23%]
+test_authz.py::test_access_matrix[row04-anonymous_cannot_reach_admin] PASSED [ 30%]
+test_authz.py::test_access_matrix[row05-patient_cannot_reach_admin] FAILED [ 38%]
+test_authz.py::test_access_matrix[row06-admin_reaches_admin] PASSED      [ 46%]
+test_authz.py::test_access_matrix[row07-mass_assignment_rejected] FAILED [ 53%]
+test_authz.py::test_access_matrix[row08-legitimate_profile_write] PASSED [ 61%]
+test_authz.py::test_access_matrix[row09-patient_cannot_write_records] FAILED [ 69%]
+test_authz.py::test_access_matrix[row10-doctor_writes_own_patient's_record] PASSED [ 76%]
+test_authz.py::test_access_matrix[row11-demoted_doctor_loses_access_at_once] FAILED [ 84%]
+test_authz.py::test_policy_denies_anonymous_and_unknown_roles PASSED     [ 92%]
+test_authz.py::test_policy_denies_unknown_actions PASSED                 [100%]
+
+================================== FAILURES ===================================
+___________ test_access_matrix[row02-cross-user_read_is_invisible] ____________
+
+clinic = (<function clinic.<locals>.client_for at 0x000002171EAD4E00>, <function clinic.<locals>.db_value at 0x000002171EAD50C0>)
+row = 2, who = 'thabo', method = 'GET', path = '/records/2', body = None
+expected = 404, why = 'cross-user read is invisible', setup = []
+
+    @pytest.mark.parametrize(
+        "row,who,method,path,body,expected,why,setup", MATRIX,
+        ids=[f"row{m[0]:02d}-{m[6].replace(' ', '_')}" for m in MATRIX])
+    def test_access_matrix(clinic, row, who, method, path, body, expected, why, setup):
+        client_for, db_value = clinic
+        client = client_for(who)            # logs in FIRST, so row 11 tests a live session
+        for s_who, s_method, s_path, s_body in setup:
+            resp = client_for(s_who).open(s_path, method=s_method, json=s_body)
+            assert resp.status_code == 200, f"setup step failed: {s_method} {s_path}"
+        resp = client.open(path, method=method, json=body)
+>       assert resp.status_code == expected, \
+            f"row {row} ({why}): got {resp.status_code}, expected {expected}"
+E       AssertionError: row 2 (cross-user read is invisible): got 200, expected 404
+E       assert 200 == 404
+E        +  where 200 = <WrapperTestResponse streamed [200 OK]>.status_code
+
+test_authz.py:87: AssertionError
+____________ test_access_matrix[row05-patient_cannot_reach_admin] _____________
+
+clinic = (<function clinic.<locals>.client_for at 0x000002171EAD4CA0>, <function clinic.<locals>.db_value at 0x000002171E3F26C0>)
+row = 5, who = 'thabo', method = 'GET', path = '/admin/users', body = None
+expected = 403, why = 'patient cannot reach admin', setup = []
+
+    @pytest.mark.parametrize(
+        "row,who,method,path,body,expected,why,setup", MATRIX,
+        ids=[f"row{m[0]:02d}-{m[6].replace(' ', '_')}" for m in MATRIX])
+    def test_access_matrix(clinic, row, who, method, path, body, expected, why, setup):
+        client_for, db_value = clinic
+        client = client_for(who)            # logs in FIRST, so row 11 tests a live session
+        for s_who, s_method, s_path, s_body in setup:
+            resp = client_for(s_who).open(s_path, method=s_method, json=s_body)
+            assert resp.status_code == 200, f"setup step failed: {s_method} {s_path}"
+        resp = client.open(path, method=method, json=body)
+>       assert resp.status_code == expected, \
+            f"row {row} ({why}): got {resp.status_code}, expected {expected}"
+E       AssertionError: row 5 (patient cannot reach admin): got 200, expected 403
+E       assert 200 == 403
+E        +  where 200 = <WrapperTestResponse streamed [200 OK]>.status_code
+
+test_authz.py:87: AssertionError
+_____________ test_access_matrix[row07-mass_assignment_rejected] ______________
+
+clinic = (<function clinic.<locals>.client_for at 0x000002171EAF3060>, <function clinic.<locals>.db_value at 0x000002171EAF37F0>)
+row = 7, who = 'thabo', method = 'PUT', path = '/profile'
+body = {'role': 'admin'}, expected = 400, why = 'mass assignment rejected'
+setup = []
+
+    @pytest.mark.parametrize(
+        "row,who,method,path,body,expected,why,setup", MATRIX,
+        ids=[f"row{m[0]:02d}-{m[6].replace(' ', '_')}" for m in MATRIX])
+    def test_access_matrix(clinic, row, who, method, path, body, expected, why, setup):
+        client_for, db_value = clinic
+        client = client_for(who)            # logs in FIRST, so row 11 tests a live session
+        for s_who, s_method, s_path, s_body in setup:
+            resp = client_for(s_who).open(s_path, method=s_method, json=s_body)
+            assert resp.status_code == 200, f"setup step failed: {s_method} {s_path}"
+        resp = client.open(path, method=method, json=body)
+>       assert resp.status_code == expected, \
+            f"row {row} ({why}): got {resp.status_code}, expected {expected}"
+E       AssertionError: row 7 (mass assignment rejected): got 200, expected 400
+E       assert 200 == 400
+E        +  where 200 = <WrapperTestResponse streamed [200 OK]>.status_code
+
+test_authz.py:87: AssertionError
+___________ test_access_matrix[row09-patient_cannot_write_records] ____________
+
+clinic = (<function clinic.<locals>.client_for at 0x000002171EAF3ED0>, <function clinic.<locals>.db_value at 0x000002171EAF3E20>)
+row = 9, who = 'thabo', method = 'PUT', path = '/records/1'
+body = {'notes': 'tampered'}, expected = 403
+why = 'patient cannot write records', setup = []
+
+    @pytest.mark.parametrize(
+        "row,who,method,path,body,expected,why,setup", MATRIX,
+        ids=[f"row{m[0]:02d}-{m[6].replace(' ', '_')}" for m in MATRIX])
+    def test_access_matrix(clinic, row, who, method, path, body, expected, why, setup):
+        client_for, db_value = clinic
+        client = client_for(who)            # logs in FIRST, so row 11 tests a live session
+        for s_who, s_method, s_path, s_body in setup:
+            resp = client_for(s_who).open(s_path, method=s_method, json=s_body)
+            assert resp.status_code == 200, f"setup step failed: {s_method} {s_path}"
+        resp = client.open(path, method=method, json=body)
+>       assert resp.status_code == expected, \
+            f"row {row} ({why}): got {resp.status_code}, expected {expected}"
+E       AssertionError: row 9 (patient cannot write records): got 200, expected 403
+E       assert 200 == 403
+E        +  where 200 = <WrapperTestResponse streamed [200 OK]>.status_code
+
+test_authz.py:87: AssertionError
+________ test_access_matrix[row11-demoted_doctor_loses_access_at_once] ________
+
+clinic = (<function clinic.<locals>.client_for at 0x000002171EAF3320>, <function clinic.<locals>.db_value at 0x000002171EAF2E50>)
+row = 11, who = 'dr_dlamini', method = 'GET', path = '/records/1', body = None
+expected = 404, why = 'demoted doctor loses access at once'
+setup = [('sysadmin', 'PUT', '/admin/users/3', {'role': 'patient'})]
+
+    @pytest.mark.parametrize(
+        "row,who,method,path,body,expected,why,setup", MATRIX,
+        ids=[f"row{m[0]:02d}-{m[6].replace(' ', '_')}" for m in MATRIX])
+    def test_access_matrix(clinic, row, who, method, path, body, expected, why, setup):
+        client_for, db_value = clinic
+        client = client_for(who)            # logs in FIRST, so row 11 tests a live session
+        for s_who, s_method, s_path, s_body in setup:
+            resp = client_for(s_who).open(s_path, method=s_method, json=s_body)
+            assert resp.status_code == 200, f"setup step failed: {s_method} {s_path}"
+        resp = client.open(path, method=method, json=body)
+>       assert resp.status_code == expected, \
+            f"row {row} ({why}): got {resp.status_code}, expected {expected}"
+E       AssertionError: row 11 (demoted doctor loses access at once): got 200, expected 404
+E       assert 200 == 404
+E        +  where 200 = <WrapperTestResponse streamed [200 OK]>.status_code
+
+test_authz.py:87: AssertionError
+=========================== short test summary info ===========================
+FAILED test_authz.py::test_access_matrix[row02-cross-user_read_is_invisible]
+FAILED test_authz.py::test_access_matrix[row05-patient_cannot_reach_admin] - ...
+FAILED test_authz.py::test_access_matrix[row07-mass_assignment_rejected] - As...
+FAILED test_authz.py::test_access_matrix[row09-patient_cannot_write_records]
+FAILED test_authz.py::test_access_matrix[row11-demoted_doctor_loses_access_at_once]
+======================== 5 failed, 8 passed in 19.68s =========================

@@ -1,0 +1,22 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.14.3, pytest-9.1.1, pluggy-1.6.0 -- C:\Python314\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\lethabo\Desktop\lita-python-foundations\day19-authz
+plugins: platformdirs-4.13.0
+collecting ... collected 13 items
+
+test_authz.py::test_access_matrix[row01-patient_reads_own_record] PASSED [  7%]
+test_authz.py::test_access_matrix[row02-cross-user_read_is_invisible] PASSED [ 15%]
+test_authz.py::test_access_matrix[row03-anonymous_cannot_read_records] PASSED [ 23%]
+test_authz.py::test_access_matrix[row04-anonymous_cannot_reach_admin] PASSED [ 30%]
+test_authz.py::test_access_matrix[row05-patient_cannot_reach_admin] PASSED [ 38%]
+test_authz.py::test_access_matrix[row06-admin_reaches_admin] PASSED      [ 46%]
+test_authz.py::test_access_matrix[row07-mass_assignment_rejected] PASSED [ 53%]
+test_authz.py::test_access_matrix[row08-legitimate_profile_write] PASSED [ 61%]
+test_authz.py::test_access_matrix[row09-patient_cannot_write_records] PASSED [ 69%]
+test_authz.py::test_access_matrix[row10-doctor_writes_own_patient's_record] PASSED [ 76%]
+test_authz.py::test_access_matrix[row11-demoted_doctor_loses_access_at_once] PASSED [ 84%]
+test_authz.py::test_policy_denies_anonymous_and_unknown_roles PASSED     [ 92%]
+test_authz.py::test_policy_denies_unknown_actions PASSED                 [100%]
+
+============================= 13 passed in 17.02s =============================
