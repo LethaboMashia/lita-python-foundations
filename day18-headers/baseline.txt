@@ -1,0 +1,30 @@
+﻿Auditing http://127.0.0.1:5000/
+MISSING  Strict-Transport-Security
+         Fix: Add 'Strict-Transport-Security: max-age=31536000; includeSubDomains' (HTTPS only).
+MISSING  Content-Security-Policy
+         Fix: Add a Content-Security-Policy that limits where scripts and content may load from.
+MISSING  X-Content-Type-Options
+         Fix: Add 'X-Content-Type-Options: nosniff'.
+MISSING  X-Frame-Options
+         Fix: Add 'X-Frame-Options: DENY' (or SAMEORIGIN) so other sites cannot frame yours.
+MISSING  Referrer-Policy
+         Fix: Add 'Referrer-Policy: strict-origin-when-cross-origin' (or no-referrer).
+MISSING  Permissions-Policy
+         Fix: Add a Permissions-Policy that switches off browser features you do not use.
+Score: 0/100 (Weak)
+Report saved: reports\report-127.0.0.1-2026-11-17.md
+Auditing http://127.0.0.1:5000/nope
+MISSING  Strict-Transport-Security
+         Fix: Add 'Strict-Transport-Security: max-age=31536000; includeSubDomains' (HTTPS only).
+MISSING  Content-Security-Policy
+         Fix: Add a Content-Security-Policy that limits where scripts and content may load from.
+MISSING  X-Content-Type-Options
+         Fix: Add 'X-Content-Type-Options: nosniff'.
+MISSING  X-Frame-Options
+         Fix: Add 'X-Frame-Options: DENY' (or SAMEORIGIN) so other sites cannot frame yours.
+MISSING  Referrer-Policy
+         Fix: Add 'Referrer-Policy: strict-origin-when-cross-origin' (or no-referrer).
+MISSING  Permissions-Policy
+         Fix: Add a Permissions-Policy that switches off browser features you do not use.
+Score: 0/100 (Weak)
+Report saved: reports\report-127.0.0.1-2026-11-17.md

@@ -1,0 +1,18 @@
+﻿Auditing http://127.0.0.1:5001/
+PRESENT  Strict-Transport-Security
+PRESENT  Content-Security-Policy
+PRESENT  X-Content-Type-Options
+PRESENT  X-Frame-Options
+PRESENT  Referrer-Policy
+PRESENT  Permissions-Policy
+Score: 100/100 (Strong)
+Report saved: reports\report-127.0.0.1-2026-11-17.md
+Auditing http://127.0.0.1:5001/nope
+PRESENT  Strict-Transport-Security
+PRESENT  Content-Security-Policy
+PRESENT  X-Content-Type-Options
+PRESENT  X-Frame-Options
+PRESENT  Referrer-Policy
+PRESENT  Permissions-Policy
+Score: 100/100 (Strong)
+Report saved: reports\report-127.0.0.1-2026-11-17.md
