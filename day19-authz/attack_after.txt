@@ -1,0 +1,11 @@
+﻿Target: http://127.0.0.1:5000
+Attacker: thabo (patient). Test data only.
+------------------------------------------------------------
+ATTACK A | thabo GET /records/2 (Naledi's record)
+    status=404 | REFUSED
+ATTACK B | thabo GET /admin/users
+    status=403 | REFUSED
+ATTACK C | thabo PUT /profile {"role":"admin"}
+    status=400 | REFUSED | thabo's real role afterwards: patient
+------------------------------------------------------------
+Attacks succeeded: 0/3

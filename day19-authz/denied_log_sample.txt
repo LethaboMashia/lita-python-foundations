@@ -1,0 +1,3 @@
+2026-11-17 15:55:49,127 DENIED status=404 reason=record_not_visible_or_missing method=GET path=/records/2 user_id=1 role=patient ip=127.0.0.1
+2026-11-17 15:55:49,150 DENIED status=403 reason=role_not_allowed method=GET path=/admin/users user_id=1 role=patient ip=127.0.0.1
+2026-11-17 15:55:49,177 DENIED status=400 reason=disallowed_fields:['role'] method=PUT path=/profile user_id=1 role=patient ip=127.0.0.1
